@@ -1,0 +1,48 @@
+<StackLayout class="p-16">
+  <Button text="← Back" class="btn btn-secondary mb-8" (tap)="goBack()"></Button>
+  
+  <Label text="Add New Purchase" class="h2 mb-8"></Label>
+
+  <StackLayout class="mb-16">
+    <Label text="Stock Ticker" class="font-bold mb-2"></Label>
+    <TextField 
+      [(ngModel)]="ticker" 
+      hint="e.g., AAPL, GOOGL" 
+      class="input mb-4"
+      (blur)="onTickerChange()">
+    </TextField>
+
+    <Label text="Quantity" class="font-bold mb-2"></Label>
+    <TextField 
+      [(ngModel)]="quantity" 
+      hint="Number of shares" 
+      keyboardType="number"
+      class="input mb-4">
+    </TextField>
+
+    <Label text="Purchase Price (per share)" class="font-bold mb-2"></Label>
+    <TextField 
+      [(ngModel)]="purchasePrice" 
+      hint="Price per share" 
+      keyboardType="number"
+      class="input mb-4">
+    </TextField>
+
+    <StackLayout class="card p-4 mb-4">
+      <Label text="Total Cost" class="font-bold"></Label>
+      <Label [text]="'$' + totalCost.toFixed(2)" class="h3"></Label>
+    </StackLayout>
+
+    <StackLayout class="card p-4 mb-8">
+      <Label text="Average Cost (for this ticker)" class="font-bold"></Label>
+      <Label [text]="'$' + (averagePrice | number:'1.2-2')" class="h3"></Label>
+    </StackLayout>
+
+    <Button 
+      text="Add Purchase" 
+      class="btn btn-primary"
+      (tap)="addPurchase()"
+      [isEnabled]="ticker && quantity && purchasePrice">
+    </Button>
+  </StackLayout>
+</StackLayout>
