@@ -1,0 +1,29 @@
+<StackLayout class="p-16">
+  <Label text="Portfolio" class="h2 mb-8"></Label>
+  
+  <Button text="Add Purchase" class="btn btn-primary mb-8" (tap)="navigateToAddPurchase()"></Button>
+
+  <ScrollView>
+    <StackLayout *ngIf="(portfolio$ | async) as items">
+      <StackLayout *ngFor="let item of items" class="card mb-8 p-8">
+        <Label [text]="item.stock.ticker" class="h3 mb-4"></Label>
+        
+        <StackLayout class="mb-4">
+          <Label [text]="'Total Quantity: ' + item.totalQuantity" class="text-sm"></Label>
+          <Label [text]="'Average Cost: $' + item.averageCost.toFixed(2)\" class="text-sm"></Label>
+          <Label [text]="'Total Cost: $' + item.totalCost.toFixed(2)\" class="text-sm"></Label>
+          <Label [text]="'Current Value: $' + item.currentValue.toFixed(2)\" class="text-sm"></Label>
+          <Label [text]="'Yield: $' + item.yield.toFixed(2) + ' (' + item.yieldPercentage.toFixed(2) + '%)'" class="text-sm font-bold" 
+                 [ngClass]="{'text-success': item.yield >= 0, 'text-danger': item.yield < 0}"></Label>
+        </StackLayout>
+
+        <StackLayout class="flex-row justify-between">
+          <Button text="View Details" class="btn btn-secondary" (tap)="navigateToStockDetail(item.stock.id)"></Button>
+          <Button text="Delete" class="btn btn-danger" (tap)="deletePurchase(item.stock.id)"></Button>
+        </StackLayout>
+      </StackLayout>
+    </StackLayout>
+
+    <Label *ngIf="!(portfolio$ | async) || (portfolio$ | async).length === 0" text="No stocks in portfolio. Add a purchase to get started!" class="text-center text-muted"></Label>
+  </ScrollView>
+</StackLayout>
